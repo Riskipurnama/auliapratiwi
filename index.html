@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aulia Pratiwi</title>
+
+<style>
+body {
+  margin: 0;
+  background: radial-gradient(circle, #0f0f0f, #000);
+  overflow: hidden;
+  font-family: Arial, sans-serif;
+  text-align: center;
+  color: white;
+}
+
+/* Judul */
+.title {
+  margin-top: 20px;
+  font-size: 24px;
+  color: #ff4da6;
+  text-shadow: 0 0 15px #ff4da6;
+}
+
+/* Video */
+.video-box {
+  margin-top: 20px;
+}
+
+video {
+  width: 90%;
+  max-width: 320px;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 20px;
+  box-shadow: 0 0 20px #ff4da6;
+  position: relative;
+  z-index: 1;
+}
+
+/* Teks */
+.message {
+  margin-top: 15px;
+  font-size: 16px;
+}
+
+/* Foto jatuh (FIXED, dari atas layar) */
+.foto-jatuh {
+  position: fixed;
+  top: -120px;
+  width: 70px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 10px;
+  animation: jatuh linear forwards;
+  z-index: 999;
+}
+
+/* Animasi jatuh */
+@keyframes jatuh {
+  from {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100vh) rotate(360deg);
+    opacity: 0;
+  }
+}
+
+/* Start screen */
+#startScreen {
+  position: fixed;
+  top:0; left:0;
+  width:100%;
+  height:100%;
+  background:black;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  color:white;
+  font-size:20px;
+  z-index:1000;
+}
+</style>
+</head>
+
+<body>
+
+<div id="startScreen">Tap disini </div>
+
+<div class="title">Happy Birthday Aulia ❤️</div>
+
+<div class="video-box">
+  <video id="video" loop muted playsinline>
+    <source src="video.mp4" type="video/mp4">
+  </video>
+</div>
+
+<div class="message" id="msg">
+  Ibu yang selalu kuat, bahkan saat dirinya sendiri lelah 💔
+</div>
+
+<audio id="music" loop>
+  <source src="lagu.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// START (musik + video)
+document.getElementById("startScreen").addEventListener("click", function(){
+  document.getElementById("music").play();
+  document.getElementById("video").play();
+  this.style.display = "none";
+});
+
+// TEKS BERGANTI
+const messages = [
+  "Selamat ulang tahun, semoga umurmu dipenuhi berkah dan kebaikan ❤️",
+  "Semoga selalu diberi kesehatan, kebahagiaan, dan umur yang panjang 🤲",
+  "Semoga segala lelahmu diganti dengan kebahagiaan yang berlipat ✨",
+  "Semoga hidupmu selalu dikelilingi orang-orang yang tulus 💖"
+];
+
+let m = 0;
+setInterval(() => {
+  m = (m + 1) % messages.length;
+  document.getElementById("msg").innerText = messages[m];
+}, 4000);
+
+// FOTO JATUH (FULL SCREEN)
+const fotos = [
+  "foto1.jpeg","foto2.jpeg","foto3.jpeg","foto4.jpeg",
+  "foto5.jpeg","foto6.jpeg","foto7.jpeg","foto8.jpeg",
+  "foto9.jpeg", "foto10.jpeg"
+];
+
+setInterval(() => {
+  const img = document.createElement("img");
+
+  img.src = fotos[Math.floor(Math.random() * fotos.length)];
+  img.classList.add("foto-jatuh");
+
+  // kalau gambar error, hapus
+  img.onerror = function() {
+    this.remove();
+  };
+
+  img.style.left = Math.random() * window.innerWidth + "px";
+  img.style.animationDuration = (Math.random() * 3 + 3) + "s";
+
+  document.body.appendChild(img);
+
+  setTimeout(() => img.remove(), 6000);
+}, 300);
+</script>
+
+</body>
+</html>
